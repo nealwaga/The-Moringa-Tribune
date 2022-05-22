@@ -2,10 +2,12 @@ from django.shortcuts import render
 from django.http import HttpResponse #This 'HttpResponse' will be responsible for returning a response to a user.
 from django.http import Http404
 import datetime as dt
+from django.shortcuts import render
 
 #Create your views here.
 def welcome(request):
-    return HttpResponse('Welcome to the Moringa Tribune!')
+    #return HttpResponse('Welcome to the Moringa Tribune!')
+    return render (request, 'welcome.html')
 
 
 def news_of_day(request):
