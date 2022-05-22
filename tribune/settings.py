@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'news.apps.NewsConfig', #This will allow the projects configurations to be reflected also in our application.
+    #'news.apps.NewsConfig', #This will allow the projects configurations to be reflected also in our application.
     'news',
     'bootstrap3',
 ]
