@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse #This 'HttpResponse' will be responsible for returning a response to a user.
 from django.http import Http404
 import datetime as dt
+from .models import Article
 
 #Create your views here.
 def welcome(request):
@@ -37,6 +38,16 @@ def past_days_news(request, past_date):
         assert False
     
     if date == dt.date.today():
-        return redirect(news_of_day)
+        #return redirect(news_of_day)
+        return redirect(news_today)
 
-    return render(request, 'all-news/past-news.html', {"date": date})
+    news = Article.days_news(date)
+    #return render(request, 'all-news/past-news.html', {"date": date})
+    return render(request, 'all-news/past-news.html',{"date": date,"news":news})
+
+
+def news_today(request):
+    date = dt.date.today()
+    news = Article.todays_news()
+    
+    return render(request, 'all-news/today-news.html', {"date": date,"news":news})
