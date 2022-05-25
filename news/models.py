@@ -1,3 +1,4 @@
+from turtle import title
 from django.db import models
 import datetime as dt
 
@@ -28,6 +29,12 @@ class Article(models.Model):
     editor = models.ForeignKey(Editor, on_delete=models.CASCADE)
     tags = models.ManyToManyField(tags)
     pub_date = models.DateTimeField(auto_now_add=True)
+
+    # This method will allow us to filter the all the Articles in our database and return ones matching to our search query
+    @classmethod
+    def search_by_title(cls, search_term):
+        news = cls.objects.filter(title__icontains = search_term)
+        return news
 
 
 @classmethod
