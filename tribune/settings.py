@@ -66,6 +66,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media', #To serve uploaded images on the development server we need to configure our urls.py to register the MEDIA_ROOT route.
             ],
         },
     },
@@ -79,7 +80,7 @@ WSGI_APPLICATION = 'tribune.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'tribune',
         'USER': 'neal',
         'PASSWORD': 'Wneal9.'
@@ -125,6 +126,10 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+
+# This allows us to to define a special route that will display our uploaded images, an example URL would be 127.0.0.1:8000/media/articles/image.jpg
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
