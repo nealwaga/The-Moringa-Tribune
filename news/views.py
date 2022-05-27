@@ -3,8 +3,7 @@ from django.http import HttpResponse #This 'HttpResponse' will be responsible fo
 from django.http import Http404
 import datetime as dt
 from .models import Article
-from django.core.exceptions import ObjectDoesNotExist, ViewDoesNotExist
-
+from django.core.exceptions import ObjectDoesNotExist
 #Create your views here.
 
 #Function that gets the weekday number for the date.
@@ -58,17 +57,10 @@ def search_results(request):
         return render(request, 'all-news/search.html',{"message":message})
 
 
-def article(request,article_id):
-    try:
-        article = Article.objects.get(id = article_id)
-    except ObjectDoesNotExist:
-        raise Http404()
-    return render(request,"all-news/article.html", {"article":article})
-
 # View function for displaying a single article
 def article(request,article_id):
     try:
         article = Article.objects.get(id = article_id)
-    except ViewDoesNotExist:
+    except ObjectDoesNotExist:
         raise Http404()
     return render(request,"all-news/article.html", {"article":article})
