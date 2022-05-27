@@ -3,7 +3,7 @@ from django.http import HttpResponse #This 'HttpResponse' will be responsible fo
 from django.http import Http404
 import datetime as dt
 from .models import Article
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, ViewDoesNotExist
 
 #Create your views here.
 
@@ -62,5 +62,13 @@ def article(request,article_id):
     try:
         article = Article.objects.get(id = article_id)
     except ObjectDoesNotExist:
+        raise Http404()
+    return render(request,"all-news/article.html", {"article":article})
+
+# View function for displaying a single article
+def article(request,article_id):
+    try:
+        article = Article.objects.get(id = article_id)
+    except ViewDoesNotExist:
         raise Http404()
     return render(request,"all-news/article.html", {"article":article})
