@@ -30,7 +30,7 @@ class Article(models.Model):
     editor = models.ForeignKey(Editor, on_delete=models.CASCADE)
     tags = models.ManyToManyField(tags)
     pub_date = models.DateTimeField(auto_now_add=True)
-    article_image = models.ImageField(upload_to = 'articles/', blank = True)
+    article_image = models.ImageField(upload_to = 'media/articles/')
 
     # This method will allow us to filter the all the Articles in our database and return ones matching to our search query
     @classmethod
