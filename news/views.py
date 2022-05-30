@@ -1,20 +1,13 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse #This 'HttpResponse' will be responsible for returning a response to a user.
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 import datetime as dt
-from .models import Article
+from .models import *
 from django.core.exceptions import ObjectDoesNotExist
 from .forms import *
+
+
 #Create your views here.
-
-#Function that gets the weekday number for the date.
-# def convert_dates(dates):
-#     day_number = dt.date.weekday(dates)
-
-#     days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-
-#     #Returning the actual day of the week.
-#     day = days[day_number]
     
 def news_today(request):
     date = dt.date.today()
@@ -24,7 +17,11 @@ def news_today(request):
     if request.method == 'POST':
         form = NewsLetterForm(request.POST)
         if form.is_valid():
-            print('valid')
+            name = form.cleaned_data['your_name']
+            email = form.cleaned_data['email']
+            recipient = NewsLetterRecipients(name = name,email =email)
+            recipient.save()
+            HttpResponseRedirect('news_today')
     else:
         form = NewsLetterForm()
     
