@@ -4,6 +4,7 @@ from django.http import Http404
 import datetime as dt
 from .models import Article
 from django.core.exceptions import ObjectDoesNotExist
+from .forms import *
 #Create your views here.
 
 #Function that gets the weekday number for the date.
@@ -18,8 +19,16 @@ from django.core.exceptions import ObjectDoesNotExist
 def news_today(request):
     date = dt.date.today()
     news = Article.todays_news()
+
+    # Since the form will be submitting sensitive data to the database we are going to use a POST request.
+    if request.method == 'POST':
+        form = NewsLetterForm(request.POST)
+        if form.is_valid():
+            print('valid')
+    else:
+        form = NewsLetterForm()
     
-    return render(request, 'all-news/today-news.html', {"date": date,"news":news})
+    return render(request, 'all-news/today-news.html', {"date": date,"news":news, "letterForm":form})
 
 
 # View Function to present news from past days
