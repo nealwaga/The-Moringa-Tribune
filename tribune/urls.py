@@ -27,4 +27,5 @@ urlpatterns = [
     re_path(r'',include('news.urls')),
     re_path(r'^accounts/', include('registration.backends.simple.urls')),
     re_path(r'^logout/$', views.logout, {"next_page": '/'}), 
+    re_path(r'^tinymce/', include('tinymce.urls')),
 ]
