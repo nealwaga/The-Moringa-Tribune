@@ -19,10 +19,12 @@ from django.urls import path, re_path, include
 #from django.conf.urls import url, include#The 'include' function allows us to reference another URLconf.
 # from django.conf.urls import url, include
 from django.contrib import admin
+from django.contrib.auth import views 
 
 urlpatterns = [
     re_path(r'admin/', admin.site.urls),
     #url(r'^news/',include('news.urls'))
     re_path(r'',include('news.urls')),
     re_path(r'^accounts/', include('registration.backends.simple.urls')),
+    re_path(r'^logout/$', views.logout, {"next_page": '/'}), 
 ]
