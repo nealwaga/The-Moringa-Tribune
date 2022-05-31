@@ -6,6 +6,7 @@ from .models import *
 from django.core.exceptions import ObjectDoesNotExist
 from .forms import *
 from .email import *
+from django.contrib.auth.decorators import login_required
 
 
 #Create your views here.
@@ -68,6 +69,7 @@ def search_results(request):
 
 
 # View function for displaying a single article
+@login_required(login_url='/accounts/login/')
 def article(request,article_id):
     try:
         article = Article.objects.get(id = article_id)
