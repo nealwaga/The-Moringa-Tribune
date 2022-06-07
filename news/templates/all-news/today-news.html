@@ -37,10 +37,9 @@
   </form>
 
 </div>
-
 {% endblock %}
 
 <!--End of the block content-->
-{% block scripts %} {{block.super}}
+{%block scripts%} {{block.super}} {% load staticfiles %}
   <script type="text/javascript" src="{%static 'js/newsletter.js'%}"></script>
 {% endblock %}
