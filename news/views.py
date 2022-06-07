@@ -8,6 +8,7 @@ from .forms import *
 from .email import *
 from django.contrib.auth.decorators import login_required
 from .forms import *
+from django.http import JsonResponse
 
 
 #Create your views here.
@@ -15,6 +16,7 @@ from .forms import *
 def news_today(request):
     date = dt.date.today()
     news = Article.todays_news()
+    form = NewsLetterForm() #display form
 
     # Since the form will be submitting sensitive data to the database we are going to use a POST request.
     if request.method == 'POST':
@@ -91,3 +93,15 @@ def new_article(request):
     else:
         form = NewArticleForm()
     return render(request, 'new_article.html', {"form": form})
+
+
+#view function that will get the name and email from my AJAX request, save the user in the database and sends the welcome email
+def newsletter(request):
+    name = request.POST.get('your_name')
+    email = request.POST.get('email')
+
+    recipient = NewsLetterRecipients(name=name, email=email)
+    recipient.save()
+    send_welcome_email(name, email)
+    data = {'success': 'You have been successfully added to mailing list'}
+    return JsonResponse(data)
