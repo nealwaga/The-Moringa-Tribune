@@ -10,9 +10,12 @@ from django.contrib.auth.decorators import login_required
 from .forms import *
 from django.http import JsonResponse
 
+from rest_framework.response import Response #'Response' to handle the response for the API requests
+from rest_framework.views import APIView #'APIView' as a base class for our API view function
+from .models import MoringaMerch
+from .serializer import MerchSerializer
 
-#Create your views here.
-    
+#Create your views here. 
 def news_today(request):
     date = dt.date.today()
     news = Article.todays_news()
@@ -58,7 +61,6 @@ def past_days_news(request, past_date):
 
 # View function that will handle the logic for displaying the search results
 def search_results(request):
-
     if 'article' in request.GET and request.GET["article"]:
         search_term = request.GET.get("article")
         searched_articles = Article.search_by_title(search_term)
@@ -105,3 +107,10 @@ def newsletter(request):
     send_welcome_email(name, email)
     data = {'success': 'You have been successfully added to mailing list'}
     return JsonResponse(data)
+
+#a get method where we query the database to get all the MoringaMerchobjects
+class MerchList(APIView):
+    def get(self, request, format=None):
+        all_merch = MoringaMerch.objects.all()
+        serializers = MerchSerializer(all_merch, many=True) #serialize the Django model objects and return the serialized data as a response
+        return Response(serializers.data)
